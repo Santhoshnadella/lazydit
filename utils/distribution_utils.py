@@ -3,6 +3,7 @@ import subprocess
 import json
 import logging
 from typing import List, Optional
+from .upscale_utils import UpscaleEngine
 
 logger = logging.getLogger(__name__)
 
@@ -220,6 +221,8 @@ class DCPMaster:
                       subtitle_path: Optional[str] = None,
                       spatial_mode: str = "Standard 5.1",
                       spatial_profile: str = "atmos",
+                      upscale_8k: bool = False,
+                      upscale_model: str = "realesrgan",
                       job_dir: str = "K:/lazydit/exports/DCP_JOB"):
         """
         End-to-end mastering pipeline (Pro Workflow).
@@ -239,12 +242,27 @@ class DCPMaster:
             if not os.path.exists(p) and not p.endswith((".wav", ".xml")):
                 os.makedirs(p)
 
+        # 0. Neural Upscaling (Optional)
+        current_video = source_video
+        if upscale_8k:
+            yield "🧠 Stage 0/7: Initializing 8K Neural Upscale (Video2X)..."
+            ue = UpscaleEngine()
+            if ue.is_available():
+                upscaled_path = os.path.join(job_dir, "master_8k.mp4")
+                for log in ue.upscale_video(source_video, upscaled_path, model=upscale_model):
+                    if "progress" in log.lower():
+                        yield f"    [UPSCLE] {log.strip()}"
+                current_video = upscaled_path
+                yield "✅ Stage 0/7: 8K High-Fidelity Upscale Complete."
+            else:
+                yield "⚠️ Stage 0/7: Video2X binary not found. Skipping upscale..."
+
         # 1. Extraction (Visual Essence)
-        yield "🎞️ Stage 1/6: Extracting high-fidelity frames..."
-        self.extract_frames(source_video, paths["frames"])
+        yield "🎞️ Stage 1/7: Extracting high-fidelity frames..."
+        self.extract_frames(current_video, paths["frames"])
 
         # 2. Audio Preparation
-        yield "🔊 Stage 2/6: Extracting and spatializing audio essence..."
+        yield "🔊 Stage 2/7: Extracting and spatializing audio essence..."
         audio_src = source_audio if source_audio else source_video
         raw_wav = os.path.join(job_dir, "raw_audio.wav")
         self.extract_audio(audio_src, raw_wav)
@@ -264,18 +282,18 @@ class DCPMaster:
 
         # 3. Subtitle Preparation (Item 1)
         if subtitle_path:
-            yield "✒️ Stage 3/6: Preparing Digital Cinema Subtitles..."
+            yield "✒️ Stage 3/7: Preparing Digital Cinema Subtitles..."
             self.prepare_subtitles(subtitle_path, paths["subs_xml"], title=title)
         else:
-            yield "⏭️ Stage 3/6: No subtitles provided, skipping..."
+            yield "⏭️ Stage 3/7: No subtitles provided, skipping..."
 
         # 4. J2K Conversion (The Core Engine - Item 1)
-        yield "💎 Stage 4/6: Encoding JPEG 2000 sequence (DCI compliant)..."
+        yield "💎 Stage 4/7: Encoding JPEG 2000 sequence (DCI compliant)..."
         # Force XYZ transform for DCI compliance
         self.create_j2k_sequence(paths["frames"], paths["j2k"], xyz=True)
 
         # 5. MXF Wrapping (Packaging)
-        yield "📦 Stage 5/6: Wrapping essences into MXF containers..."
+        yield "📦 Stage 5/7: Wrapping essences into MXF containers..."
         video_mxf = os.path.join(paths["mxf"], "video.mxf")
         audio_mxf = os.path.join(paths["mxf"], "audio.mxf")
         self.wrap_mxf("picture", paths["j2k"], video_mxf)
@@ -286,7 +304,7 @@ class DCPMaster:
             self.wrap_mxf("subtitle", paths["subs_xml"], sub_mxf)
 
         # 6. XML Passport (Item 3)
-        yield "📜 Stage 6/6: Generating Digital Passport (XML Metadata)..."
+        yield "📜 Stage 6/7: Generating Digital Passport (XML Metadata)..."
         self.generate_xml_metadata(title, video_mxf, audio_mxf, paths["dcp"])
 
         yield f"✅ Mastering Complete! DCP saved at: {paths['dcp']}"

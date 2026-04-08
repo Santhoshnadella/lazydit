@@ -24,23 +24,23 @@ graph TD
 ## 🎞️ Core Features
 
 ### 🏛️ Professional Cinema Console (Titan Engine)
+- **8K Neural Upscaling**: Integrated **Video2X** engine for AI-driven 4K-to-8K theatrical mastering (Real-ESRGAN/Real-CUGAN).
 - **Atmos ADM Object Engine**: Full object-based spatial audio support with ADM (Audio Definition Model) and XYZ keyframing.
 - **GradeForgeV2**: Multi-camera domain harmonization using advanced manifold alignment for seamless color matching.
 - **High-Fidelity J2K Engine**: XYZ color-transform compliant JPEG 2000 encoding with automated 12-bit precision.
-- **Titan Automated Dispatch**: 6-stage one-click mastering pipeline (Extraction -> Audio -> Subs -> J2K -> MXF -> XML).
+- **Titan Automated Dispatch**: 7-stage one-click mastering pipeline (Upscale -> Extraction -> Audio -> Subs -> J2K -> MXF -> XML).
 - **Direct Subtitle Interop**: Native SRT-to-XML parsing for standard theatrical DCI subtitles.
 - **HDR10+ Logic**: Automated detection and preservation of high-dynamic-range metadata (BT.2020/PQ).
-- **MXF Wrapper**: Industrial essence wrapping for vision, sound, and timed text.
-- **XML Passport**: Automatic CPL, PKL, and ASSETMAP generation for standard cinema projectors.
 
 ### 🧠 Agentic AI Forge
+- **"God-Tier" Industrial GUI**: A premium, glassmorphic cinema workstation for intuitive post-production orchestration.
 - **Universal Master Super-Graph**: A monolithic ComfyUI blueprint chaining Intelligence -> Gen -> VFX -> Mastering.
 - **39+ Department Gallery**: One-click autodiscovery of specialized AI blueprints (Wan 2.2, SVD, ACE Audio, etc.).
 - **Live Sync**: Direct dashboard-to-engine synchronization for zero-latency department swapping.
 
 ### 📐 Engineering Excellence
 - **Titan Chunk-and-Stitch**: Memory-safe rendering for large-scale projects.
-- **Infrastructure Status Monitoring**: Real-time heartbeat tracking of AI engines and Cinema binaries.
+- **Infrastructure Status Monitoring**: Real-time heartbeat tracking for AI Engines, Cinema Binaries, and Upscale Drivers.
 - **Architecture & Academy**: Built-in documentation for professional post-production workflows.
 
 ---
@@ -64,21 +64,21 @@ graph TD
 
 ## 🏛️ Project Progress & Roadmap
 
-### Current Status: **V1.2 RELEASE (Cinema Hardened)** 🟢
+### Current Status: **V1.3 RELEASE (Titan Unleashed)** 🟢
+- [x] **8K Neural Upscaling Integration** (Video2X v1.3)
+- [x] **Premium GUI Reconstruction** (v1.3)
 - [x] Official OpenDCP GUI Reconstruction
 - [x] Universal Master Super-Graph Synthesis
 - [x] Visual Blueprint Gallery Autodiscovery
 - [x] Titan Rendering Architecture Deployment
-- [x] Industrial Infrastructure Fault-Tolerance (FFmpeg/Native fallbacks)
-- [x] Direct Subtitle Overlay Department (XML-Interop)
-- [x] High-Dynamic-Range (HDR10+) Metadata Injection
 - [x] **Dolby Atmos Audio Essence Integration** (v1.2)
 - [x] **GradeForgeV2 Multi-Camera Harmonizer** (v1.2)
+- [x] High-Dynamic-Range (HDR10+) Metadata Injection
 
 ### Upcoming Roadmap 🏗️
 - [ ] Remote Render-Node Clustering (Titan Cloud)
 - [ ] Direct DCI-P3 Projector Calibration Link
-- [ ] Real-time Neural Upscaling (4K -> 8K Cinema)
+- [ ] Real-time Neural Audio Restoration (Dolby Pro)
 
 ---
 
