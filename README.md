@@ -74,5 +74,4 @@ graph TD
 
 ---
 
-**Developed by Antigravity AI Studio**  
-*Powering the future of Agentic Cinema.* 🎬💎🛸
+
