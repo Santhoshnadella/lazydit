@@ -1,0 +1,222 @@
+{
+  "id": "lazydit-universal-master-001",
+  "revision": 1,
+  "last_node_id": 200,
+  "last_link_id": 300,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "Textarea_Node",
+      "pos": [
+        100,
+        100
+      ],
+      "size": [
+        300,
+        150
+      ],
+      "title": "🎬 Director's Script (LazyDit Intelligence)",
+      "widgets_values": [
+        "A cinematic masterpiece of a sunset over a digital city, 4k, neon lights, hyper-detailed."
+      ]
+    },
+    {
+      "id": 10,
+      "type": "PromptEnhancer",
+      "pos": [
+        450,
+        100
+      ],
+      "size": [
+        300,
+        100
+      ],
+      "title": "🧠 Gemma-2B Intelligence Layer",
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 1
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "type": "Wan_2.2_Generator",
+      "pos": [
+        800,
+        100
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "title": "🎞️ Visual Forge (Wan 2.2 / SVD)",
+      "inputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            30,
+            40
+          ]
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "type": "FilmGrainNode",
+      "pos": [
+        1250,
+        100
+      ],
+      "size": [
+        250,
+        100
+      ],
+      "title": "🎞️ VFX Lab: Film Grain",
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 20
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "type": "HDR_Toning",
+      "pos": [
+        1250,
+        250
+      ],
+      "size": [
+        250,
+        100
+      ],
+      "title": "🌈 VFX Lab: High-Fidelity HDR",
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 20
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "type": "Audio_ACE_Forge",
+      "pos": [
+        800,
+        450
+      ],
+      "size": [
+        300,
+        100
+      ],
+      "title": "🎵 Sound Stage (Audio ACE)",
+      "inputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 10
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "type": "VideoStitchMaster",
+      "pos": [
+        1600,
+        100
+      ],
+      "size": [
+        300,
+        200
+      ],
+      "title": "📦 Master Dispatch: Video Stitching",
+      "inputs": [
+        {
+          "name": "vfx_video",
+          "type": "VIDEO",
+          "link": 30
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 50
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": 1,
+      "type": "STRING",
+      "origin_id": 1,
+      "origin_slot": 0,
+      "target_id": 10,
+      "target_slot": 0
+    },
+    {
+      "id": 10,
+      "type": "STRING",
+      "origin_id": 10,
+      "origin_slot": 0,
+      "target_id": 20,
+      "target_slot": 0
+    },
+    {
+      "id": 20,
+      "type": "STRING",
+      "origin_id": 10,
+      "origin_slot": 0,
+      "target_id": 50,
+      "target_slot": 0
+    },
+    {
+      "id": 30,
+      "type": "VIDEO",
+      "origin_id": 20,
+      "origin_slot": 0,
+      "target_id": 30,
+      "target_slot": 0
+    },
+    {
+      "id": 40,
+      "type": "VIDEO",
+      "origin_id": 20,
+      "origin_slot": 0,
+      "target_id": 40,
+      "target_slot": 0
+    },
+    {
+      "id": 100,
+      "type": "VIDEO",
+      "origin_id": 30,
+      "origin_slot": 0,
+      "target_id": 100,
+      "target_slot": 0
+    },
+    {
+      "id": 101,
+      "type": "AUDIO",
+      "origin_id": 50,
+      "origin_slot": 0,
+      "target_id": 100,
+      "target_slot": 1
+    }
+  ],
+  "metadata": {
+    "title": "LazyDit Universal Master",
+    "description": "The One Workflow to Rule Them All. End-to-end Hollywood production.",
+    "author": "lazydit Studio Engine"
+  }
+}

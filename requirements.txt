@@ -1,0 +1,23 @@
+# Core Frameworks
+streamlit
+llama-cpp-python
+
+# Video Processing
+ffmpeg-python
+moviepy
+scenedetect[opencv]
+opencv-python
+numpy
+
+# Audio Engineering
+pedalboard
+pydub
+
+# API & Networking
+requests
+python-dotenv
+
+# Utilities
+pydantic
+PyYAML
+markdown

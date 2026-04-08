@@ -1,0 +1,9 @@
+{
+    "name": "Cinematic Short",
+    "pacing": "Slow/Emotional",
+    "color_grade": "Sentiment-Based (Mood: Melancholy/Grand)",
+    "audio": "Dolby TrueHD 7.1",
+    "fps_target": 60,
+    "rife_interpolation": true,
+    "vfx_preference": "SVD-High"
+}
