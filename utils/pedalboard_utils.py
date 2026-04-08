@@ -1,4 +1,4 @@
-from pedalboard import Pedalboard, Reverb, Compressor, HighpassFilter, LowPassFilter, LowShelfFilter, HighShelfFilter, Gain, Convolution
+from pedalboard import Pedalboard, Reverb, Compressor, HighpassFilter, LowpassFilter, LowShelfFilter, HighShelfFilter, Gain, Convolution
 from pedalboard.io import AudioFile
 import numpy as np
 import os
@@ -48,7 +48,7 @@ class AudioMaster:
             
             # 3. LFE Channel (80Hz Crossover Computation)
             lfe_base = k * (processed_audio[0] + processed_audio[1])
-            lfe_board = Pedalboard([LowPassFilter(cutoff_frequency_hz=80)])
+            lfe_board = Pedalboard([LowpassFilter(cutoff_frequency_hz=80)])
             surround_audio[3] = lfe_board(lfe_base, self.sample_rate)
             
             # 4. Surround Channels
@@ -68,7 +68,7 @@ class AudioMaster:
             
             # LFE Crossover
             lfe_base = k * (processed_audio[0] + processed_audio[1])
-            lfe_board = Pedalboard([LowPassFilter(cutoff_frequency_hz=80)])
+            lfe_board = Pedalboard([LowpassFilter(cutoff_frequency_hz=80)])
             atmos_audio[3] = lfe_board(lfe_base, self.sample_rate)
             
             atmos_audio[4] = k * processed_audio[0] # Ls
