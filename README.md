@@ -24,8 +24,8 @@ graph TD
 ## 🎞️ Core Features
 
 ### 🏛️ Professional Cinema Console (Titan Engine)
-- **Object-Based Spatial Engine**: Full ADM (Audio Definition Model) support with manual X, Y, Z keyframing.
-- **GradeForgeV2**: Multi-camera domain harmonization using advanced manifold alignment.
+- **Atmos ADM Object Engine**: Full object-based spatial audio support with ADM (Audio Definition Model) and XYZ keyframing.
+- **GradeForgeV2**: Multi-camera domain harmonization using advanced manifold alignment for seamless color matching.
 - **High-Fidelity J2K Engine**: XYZ color-transform compliant JPEG 2000 encoding with automated 12-bit precision.
 - **Titan Automated Dispatch**: 6-stage one-click mastering pipeline (Extraction -> Audio -> Subs -> J2K -> MXF -> XML).
 - **Direct Subtitle Interop**: Native SRT-to-XML parsing for standard theatrical DCI subtitles.
@@ -64,7 +64,7 @@ graph TD
 
 ## 🏛️ Project Progress & Roadmap
 
-### Current Status: **V1.1 RELEASE (Cinema Hardened)** 🟢
+### Current Status: **V1.2 RELEASE (Cinema Hardened)** 🟢
 - [x] Official OpenDCP GUI Reconstruction
 - [x] Universal Master Super-Graph Synthesis
 - [x] Visual Blueprint Gallery Autodiscovery
@@ -72,12 +72,17 @@ graph TD
 - [x] Industrial Infrastructure Fault-Tolerance (FFmpeg/Native fallbacks)
 - [x] Direct Subtitle Overlay Department (XML-Interop)
 - [x] High-Dynamic-Range (HDR10+) Metadata Injection
+- [x] **Dolby Atmos Audio Essence Integration** (v1.2)
+- [x] **GradeForgeV2 Multi-Camera Harmonizer** (v1.2)
 
 ### Upcoming Roadmap 🏗️
 - [ ] Remote Render-Node Clustering (Titan Cloud)
-- [ ] Dolby Atmos Audio Essence Integration
-- [ ] AI-Driven Color Grading Matcher
+- [ ] Direct DCI-P3 Projector Calibration Link
+- [ ] Real-time Neural Upscaling (4K -> 8K Cinema)
 
 ---
+
+*Proudly crafted for the next generation of independent cinema.*
+
 
 
