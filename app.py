@@ -285,8 +285,60 @@ with tab4:
     master = DCPMaster(opendcp_path=st.session_state.get('opendcp_path'))
     status = master.check_availability()
     
-    # Mirroring the official 4-tab structure
-    m_tab1, m_tab2, m_tab3, m_tab4 = st.tabs(["JPEG 2000", "MXF", "Subtitles", "DCP"])
+    # Mirroring the official 5-tab structure with Automated Engine
+    m_tab0, m_tab1, m_tab2, m_tab3, m_tab4 = st.tabs(["🚀 Full Dispatch Engine", "JPEG 2000", "MXF", "Subtitles", "XML Passport"])
+    
+    with m_tab0:
+        st.subheader("🚀 Titan Engine: Automated Theatrical Dispatch")
+        st.info("The 'Titan' Engine automates extraction, J2K encoding, MXF wrapping, and XML packaging with HDR10+ support.")
+        
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            dispatch_title = st.text_input("Production Title (CPL)", value="LAZYDIT_FEATURE_MASTER")
+            dispatch_video = st.text_input("Source Video for Mastering", value="K:/lazydit/exports/master_final.mp4")
+            dispatch_subs = st.text_input("Subtitle Source (Optional)", value="", placeholder="Path to .srt or .xml")
+        with col_d2:
+            dispatch_audio = st.text_input("Source Audio (Optional)", value="", placeholder="Leave blank to use video audio")
+            dispatch_dir = st.text_input("Mastering Job Directory", value="K:/lazydit/exports/DCP_JOB/")
+            dispatch_hdr = st.toggle("Force HDR 10-bit Extraction", value=False)
+
+        if st.button("🚀 IGNITE FULL CINEMA MASTER (DCI)"):
+            if not os.path.exists(dispatch_video):
+                st.error("Source video not found!")
+            else:
+                progress_container = st.empty()
+                progress_bar = st.progress(0, text="Initializing Cinema Engine...")
+                
+                with st.status("🎬 Cinema Engine: Dispatching Master...", expanded=True) as status:
+                    # 6 Stages mapping
+                    stages = {
+                        "Stage 1/6": 16,
+                        "Stage 2/6": 33,
+                        "Stage 3/6": 50,
+                        "Stage 4/6": 66,
+                        "Stage 5/6": 83,
+                        "Stage 6/6": 95,
+                        "✅": 100
+                    }
+                    
+                    for update in master.full_dispatch(
+                        dispatch_title, 
+                        dispatch_video, 
+                        dispatch_audio if dispatch_audio else None, 
+                        subtitle_path=dispatch_subs if dispatch_subs else None,
+                        job_dir=dispatch_dir
+                    ):
+                        st.write(update)
+                        # Update progress bar based on stage
+                        for key, val in stages.items():
+                            if key in update:
+                                progress_bar.progress(val, text=update)
+                                break
+                                
+                        if "✅" in update:
+                            status.update(label="✅ Master Dispatch Complete!", state="complete")
+                            st.balloons()
+                            st.success(f"DCP Mastered Successfully in {dispatch_dir}")
     
     with m_tab1:
         st.subheader("JPEG 2000 Encoder Parameters")
@@ -389,17 +441,21 @@ with tab4:
             return f"ONLINE ({fallback_cmd.upper()})", "green"
         return "MISSING", "red"
 
-    cinema_path = st.sidebar.text_input("⚙️ Cinema Engine Path", "", help="Path to OpenDCP/DCP-o-matic binaries")
+    cinema_path = st.sidebar.text_input("⚙️ Cinema Engine Path", st.session_state.get('opendcp_path', ""), help="Path to OpenDCP/DCP-o-matic binaries")
     
-    st.sidebar.info("J2K Engine")
     j2k_status, j2k_color = get_binary_status("opendcp_j2k", cinema_path, fallback_cmd="ffmpeg")
+    mxf_status, mxf_color = get_binary_status("opendcp_mxf", cinema_path, fallback_cmd="ffmpeg")
+
+    st.sidebar.info("Cinema Engine")
+    engine_ready = j2k_status == "ONLINE" and mxf_status == "ONLINE"
+    engine_color = "green" if engine_ready else "orange"
+    engine_text = "OPERATIONAL" if engine_ready else "PARTIAL (FFMPEG)"
+    st.sidebar.markdown(f"**:{engine_color}[{engine_text}]**")
+
+    st.sidebar.info("J2K Engine (Item 1)")
     st.sidebar.markdown(f"**:{j2k_color}[{j2k_status}]**")
     
-    st.sidebar.info("MXF Wrapper")
-    mxf_status, mxf_color = get_binary_status("opendcp_mxf", cinema_path, fallback_cmd="ffmpeg")
-    st.sidebar.markdown(f"**:{mxf_color}[{mxf_status}]**")
-    
-    st.sidebar.info("XML Passport")
+    st.sidebar.info("XML Passport (Item 3)")
     st.sidebar.markdown("**:green[ONLINE (NATIVE)]**")
 
 with tab5:

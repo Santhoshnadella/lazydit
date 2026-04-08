@@ -23,11 +23,13 @@ graph TD
 
 ## 🎞️ Core Features
 
-### 🏛️ Professional Cinema Console (OpenDCP Mirror)
-- **High-Fidelity J2K Engine**: XYZ color-transform compliant JPEG 2000 encoding.
-- **MXF Wrapper**: Industrial essence wrapping for vision and sound.
+### 🏛️ Professional Cinema Console (Titan Engine)
+- **High-Fidelity J2K Engine**: XYZ color-transform compliant JPEG 2000 encoding with automated 12-bit precision.
+- **Titan Automated Dispatch**: 6-stage one-click mastering pipeline (Extraction -> Audio -> Subs -> J2K -> MXF -> XML).
+- **Direct Subtitle Interop**: Native SRT-to-XML parsing for standard theatrical DCI subtitles.
+- **HDR10+ Logic**: Automated detection and preservation of high-dynamic-range metadata (BT.2020/PQ).
+- **MXF Wrapper**: Industrial essence wrapping for vision, sound, and timed text.
 - **XML Passport**: Automatic CPL, PKL, and ASSETMAP generation for standard cinema projectors.
-- **20+ professional DCI parameters**: Mapping every professional flag from official mastering tools.
 
 ### 🧠 Agentic AI Forge
 - **Universal Master Super-Graph**: A monolithic ComfyUI blueprint chaining Intelligence -> Gen -> VFX -> Mastering.
@@ -60,17 +62,19 @@ graph TD
 
 ## 🏛️ Project Progress & Roadmap
 
-### Current Status: **V1.0 RELEASE (Operational Peak)** 🟢
+### Current Status: **V1.1 RELEASE (Cinema Hardened)** 🟢
 - [x] Official OpenDCP GUI Reconstruction
 - [x] Universal Master Super-Graph Synthesis
 - [x] Visual Blueprint Gallery Autodiscovery
 - [x] Titan Rendering Architecture Deployment
 - [x] Industrial Infrastructure Fault-Tolerance (FFmpeg/Native fallbacks)
+- [x] Direct Subtitle Overlay Department (XML-Interop)
+- [x] High-Dynamic-Range (HDR10+) Metadata Injection
 
 ### Upcoming Roadmap 🏗️
-- [ ] Direct Subtitle Overlay Department (XML-Interop)
 - [ ] Remote Render-Node Clustering (Titan Cloud)
-- [ ] High-Dynamic-Range (HDR10+) Metadata Injection
+- [ ] Dolby Atmos Audio Essence Integration
+- [ ] AI-Driven Color Grading Matcher
 
 ---
 
