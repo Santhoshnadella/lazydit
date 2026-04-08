@@ -2,6 +2,9 @@ import requests
 import json
 import time
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 class ComfyUIClient:
     def __init__(self, base_url="http://localhost:8188", cloud_url=None, cloud_token=None):
@@ -34,19 +37,61 @@ class ComfyUIClient:
             time.sleep(5)
         raise TimeoutError("ComfyUI workflow timed out")
 
+    def _update_workflow_data(self, workflow, input_path):
+        """Programmatically injects the input video path into the LoadVideo node."""
+        for node_id in workflow:
+            node = workflow[node_id]
+            if node.get("class_type") == "VideoLinearCFGGuidance" or "Load" in node.get("class_type", ""):
+                if "inputs" in node and ("video" in node["inputs"] or "image" in node["inputs"]):
+                    # Target common input fields for video/image loading
+                    if "video" in node["inputs"]:
+                        node["inputs"]["video"] = input_path
+                    elif "image" in node["inputs"]:
+                        node["inputs"]["image"] = input_path
+                    logger.info(f"✅ Injected path into ComfyUI Node {node_id} ({node['class_type']})")
+        return workflow
+
+    def download_output(self, prompt_id, output_dir):
+        """Fetches the rendered files from the ComfyUI server."""
+        history = self.get_history(prompt_id).get(prompt_id, {})
+        outputs = history.get("outputs", {})
+        
+        saved_paths = []
+        for node_id in outputs:
+            node_output = outputs[node_id]
+            if "images" in node_output:
+                for img in node_output["images"]:
+                    filename = img["filename"]
+                    subfolder = img["subfolder"]
+                    # Build URL to fetch the file
+                    file_url = f"{self.get_current_url()}/view?filename={filename}&subfolder={subfolder}&type={img['type']}"
+                    
+                    local_path = os.path.join(output_dir, filename)
+                    os.makedirs(output_dir, exist_ok=True)
+                    
+                    # Download
+                    r = requests.get(file_url, stream=True)
+                    if r.status_code == 200:
+                        with open(local_path, 'wb') as f:
+                            for chunk in r.iter_content(chunk_size=1024):
+                                f.write(chunk)
+                        saved_paths.append(local_path)
+                        logger.info(f"📥 Downloaded ComfyUI output: {local_path}")
+        return saved_paths
+
     def process_clip(self, input_path, workflow_json, output_dir):
         """
-        Injects input_path into the workflow JSON and triggers rendering.
-        This assumes the workflow has a LoadVideo node that can be targeted.
+        Executes a full ComfyUI render cycle with automated data injection.
         """
-        # Logic to update workflow JSON with input_path would go here
-        # For now, we'll assume the workflow is pre-configured or updated as a template
-        prompt_res = self.queue_prompt(workflow_json)
+        # 1. Inject input
+        updated_workflow = self._update_workflow_data(workflow_json, input_path)
+        
+        # 2. Queue and Wait
+        prompt_res = self.queue_prompt(updated_workflow)
         prompt_id = prompt_res['prompt_id']
         
-        print(f"Queued ComfyUI job: {prompt_id}")
-        result = self.wait_for_completion(prompt_id)
+        logger.info(f"🚀 Queued ComfyUI job: {prompt_id}")
+        self.wait_for_completion(prompt_id)
         
-        # Download output logic
-        # ...
-        return result
+        # 3. Download results
+        return self.download_output(prompt_id, output_dir)

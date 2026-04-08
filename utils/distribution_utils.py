@@ -218,6 +218,8 @@ class DCPMaster:
 
     def full_dispatch(self, title: str, source_video: str, source_audio: Optional[str] = None, 
                       subtitle_path: Optional[str] = None,
+                      spatial_mode: str = "Standard 5.1",
+                      spatial_profile: str = "atmos",
                       job_dir: str = "K:/lazydit/exports/DCP_JOB"):
         """
         End-to-end mastering pipeline (Pro Workflow).
@@ -242,9 +244,23 @@ class DCPMaster:
         self.extract_frames(source_video, paths["frames"])
 
         # 2. Audio Preparation
-        yield "🔊 Stage 2/6: Extracting theatrical audio essence..."
+        yield "🔊 Stage 2/6: Extracting and spatializing audio essence..."
         audio_src = source_audio if source_audio else source_video
-        self.extract_audio(audio_src, paths["audio_wav"])
+        raw_wav = os.path.join(job_dir, "raw_audio.wav")
+        self.extract_audio(audio_src, raw_wav)
+        
+        # Apply Spatial Logic (Atmos/HeSuVi)
+        from .pedalboard_utils import AudioMaster, SpatialAudioEngine
+        am = AudioMaster()
+        
+        layout = '5.1' if "5.1" in spatial_mode else '7.1.4'
+        yield f"🎧 Mixing for {layout} ({spatial_mode})..."
+        am.create_cinema_mix(raw_wav, paths["audio_wav"], layout=layout)
+        
+        if "Binaural" in spatial_mode:
+            yield f"🧤 Virtualizing 3D Binaural ({spatial_profile})..."
+            sae = SpatialAudioEngine()
+            sae.virtualize_binaural(paths["audio_wav"], os.path.join(job_dir, "preview_binaural.wav"), profile=spatial_profile)
 
         # 3. Subtitle Preparation (Item 1)
         if subtitle_path:

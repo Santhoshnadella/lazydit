@@ -46,3 +46,37 @@ class FinalRenderer:
         except ffmpeg.Error as e:
             print(f"FFmpeg error: {e.stderr.decode()}")
             raise e
+
+    def concat_sequences(self, chunk_paths, output_path):
+        """
+        Lossless concatenation of video chunks using the FFmpeg concat demuxer.
+        """
+        if not chunk_paths:
+            return None
+
+        # 1. Generate temp file list for concat demuxer
+        temp_list = "temp_data/concat_list.txt"
+        os.makedirs("temp_data", exist_ok=True)
+        
+        with open(temp_list, "w") as f:
+            for path in chunk_paths:
+                # Use absolute path and escape single quotes for FFmpeg
+                abs_path = os.path.abspath(path).replace("'", "'\\''")
+                f.write(f"file '{abs_path}'\n")
+
+        # 2. Execute concat
+        try:
+            (
+                ffmpeg
+                .input(temp_list, format='concat', safe=0)
+                .output(output_path, c='copy')
+                .overwrite_output()
+                .run(capture_stdout=True, capture_stderr=True)
+            )
+            return output_path
+        except ffmpeg.Error as e:
+            print(f"Concat error: {e.stderr.decode()}")
+            raise e
+        finally:
+            if os.path.exists(temp_list):
+                os.remove(temp_list)

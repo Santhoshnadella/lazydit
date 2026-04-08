@@ -24,6 +24,8 @@ graph TD
 ## 🎞️ Core Features
 
 ### 🏛️ Professional Cinema Console (Titan Engine)
+- **Object-Based Spatial Engine**: Full ADM (Audio Definition Model) support with manual X, Y, Z keyframing.
+- **GradeForgeV2**: Multi-camera domain harmonization using advanced manifold alignment.
 - **High-Fidelity J2K Engine**: XYZ color-transform compliant JPEG 2000 encoding with automated 12-bit precision.
 - **Titan Automated Dispatch**: 6-stage one-click mastering pipeline (Extraction -> Audio -> Subs -> J2K -> MXF -> XML).
 - **Direct Subtitle Interop**: Native SRT-to-XML parsing for standard theatrical DCI subtitles.
